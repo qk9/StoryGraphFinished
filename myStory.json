@@ -1,58 +1,744 @@
 {
-    "Title": "Campus Life on the West Side",
-    "Credits": "Created by Adam Smith (amsmith@ucsc.edu).",
-    "InitialLocation": "Kresge",
+    "Title": "The Pair and the Prisons",
+    "Credits": "Created by Iain Rogers (iarogers@ucsc.edu).",
+    "InitialLocation": "Door1",
     "Locations": {
-        "Kresge": {
-            "Body": "This is Kresge College, lots of nice trees.",
-            "Choices": [
+        "Door1": {
+            "Body": "You're facing the thick oaken door of the suffocatingly small shack that's become your home.",
+            "ConditionalBody": [
                 {
-                    "Text": "South",
-                    "Target": "Porter"
-                }
-            ]
-        },
-        "Porter": {
-            "Body": "This is Porter College, the trees are nice here too.",
-            "Choices": [
-                {
-                    "Text": "North",
-                    "Target": "Kresge"
+                    "Text": "If you had a key, you could probably reach through the tiny slot in the door and fit it in the keyhole you know sits on the other side. You know everything you can about it. You remember where it is on the door. You remember the shape of the key your jailors held when they locked you in here, saying you were 'possessed by demons'. But you've already exhausted all your options, it seems. As exactingly thorough as your search has been, there's just nothing in this place that you can fashion into a strong enough, precise enough key.",
+                    "Conditions": [
+                        {
+                            "Condition": "gameState",
+                            "ConditionValue": "0"
+                        }
+                    ]
                 },
                 {
-                    "Text": "South",
-                    "Target": "Rachel Carson"
+                    "Text": "With the key you've been given, you can finally unlock the door and be free once more.",
+                    "Conditions": [
+                        {
+                            "Condition": "roomKey",
+                            "ConditionValue": "inventory"
+                        }
+                    ]
                 }
-            ]
-        },
-        "Rachel Carson": {
-            "Body": "Rachel Carson College, more sun and fewer trees.",
+            ],
             "Choices": [
                 {
-                    "Text": "North",
-                    "Target": "Porter"
+                    "Text": "Turn Left",
+                    "Target": "Table1"
                 },
                 {
-                    "Text": "South",
-                    "Target": "Oakes"
+                    "Text": "Turn Right",
+                    "Target": "Altar1"
+                },
+                {
+                    "Text": "Unlock Door",
+                    "Conditions": [
+                        {
+                            "Condition": "roomKey",
+                            "ConditionValue": "inventory"
+                        }
+                    ],
+                    "Call": "unlockDoor"
+                },
+                {
+                    "Text": "Go Outside",
+                    "Conditions": [
+                        {
+                            "Condition": "mortalDoorUnlocked",
+                            "ConditionValue": "1"
+                        }
+                    ],
+                    "Target": "AltarFreeSpirits"
                 }
             ]
         },
-        "Oakes": {
-            "Body": "Oakes College, even the buildings have tree bark on them.",
+        "Table1": {
+            "Body": "You're facing the low wooden table, atop which stands the evidence of your only remaining pastime.",
+            "ConditionalBody": [
+                {
+                    "Text": "A carving knife sits atop the table, along with your few remaining oak blanks. You worked through the majority of your blanks long ago, as evidenced by the diorama of memories -- and the pile of broken attempts at keys -- scattered across the rest of the table.",
+                    "Conditions":[
+                        {
+                            "Condition": "knife",
+                            "ConditionValue": "Table1"
+                        }
+                    ]
+                },
+                {
+                    "Text": "You wonder if there's anything else you can carve with the remaining blanks.",
+                    "Conditions": [
+                        {
+                            "Condition": "knife",
+                            "ConditionValue": "inventory"
+                        }
+                    ]
+                },
+                {
+                    "Text": "An urge to carve something specific is emanating from somewhere within you.",
+                    "Conditions": [
+                        {
+                            "Condition": "gameState",
+                            "ConditionValue": "2"
+                        },
+                        {
+                            "Condition": "knife",
+                            "ConditionValue": "Table1"
+                        }
+                    ]
+                },
+                {
+                    "Text": "Something truly strange sits on the table before you, wrought by your hand. For all the world, it looks like an explosion rendered in oak -- devoid of any visible pattern, form, or use. You vaguely sense a strange sort of wrongness coming from it. It feels somehow like it wasn't meant for your eyes.",
+                    "Conditions": [
+                        {
+                            "Condition": "idol",
+                            "ConditionValue": "Table1"
+                        }
+                    ]
+                },
+                {
+                    "Text": "Suddenly, you notice something utterly unbelievable. The key to your cell is sitting on the table in front of you, perfectly forged from flawless iron. As if your dreams had perfectly manifested themselves into your world, through some sheer force of will. You're almost afraid to reach out and touch it, but when you do, you know beyond all doubt. It's real. It's here.",
+                    "Conditions": [
+                        {
+                            "Condition": "roomKey",
+                            "ConditionValue": "Table1"
+                        }
+                    ]
+                }
+            ],
             "Choices": [
                 {
-                    "Text": "North",
-                    "Target": "Rachel Carson"
+                    "Text": "Turn Left",
+                    "Target": "Window1"
                 },
                 {
-                    "Text": "South",
-                    "Target": "Beyond"
+                    "Text": "Turn Right",
+                    "Target": "Door1"
+                },
+                {
+                    "Text": "Get Knife",
+                    "Conditions": [
+                        {
+                            "Condition": "knife",
+                            "ConditionValue": "Table1"
+                        }
+                    ],
+                    "Call": "getKnife"
+                },
+                {
+                    "Text": "Place Knife",
+                    "Conditions": [
+                        {
+                            "Condition": "knife",
+                            "ConditionValue": "inventory"
+                        }
+                    ],
+                    "Call": "putKnife"
+                },
+                {
+                    "Text": "Carve",
+                    "Conditions": [
+                        {
+                            "Condition": "gameState",
+                            "ConditionValue": "2"
+                        },
+                        {
+                            "Condition": "knife",
+                            "ConditionValue": "inventory"
+                        }
+                    ],
+                    "Call": "makeIdol"
+                },
+                {
+                    "Text": "Get Idol",
+                    "Conditions": [
+                        {
+                            "Condition": "idol",
+                            "ConditionValue": "Table1"
+                        }
+                    ],
+                    "Call": "getIdol"
+                },
+                {
+                    "Text": "Place Idol",
+                    "Conditions": [
+                        {
+                            "Condition": "idol",
+                            "ConditionValue": "inventory"
+                        }
+                    ],
+                    "Call": "putIdol"
+                },
+                {
+                    "Text": "Get Key",
+                    "Conditions": [
+                        {
+                            "Condition": "roomKey",
+                            "ConditionValue": "Table1"
+                        }
+                    ],
+                    "Call": "getRoomKey"
                 }
             ]
         },
-        "Beyond": {
-            "Body": "Grass, don't forget to check for ticks!"
+        "Window1": {
+            "Body": "The shack's lone window taunts you with visions of the world just beyond your grasp. If it wasn't for that view, though, you might have lost your sanity a long time ago.",
+            "ShowTime": "",
+            "Choices": [
+                {
+                    "Text": "Turn Left",
+                    "Target": "Altar1"
+                },
+                {
+                    "Text": "Wait here",
+                    "Call": "wait"
+                },
+                {
+                    "Text": "Turn Right",
+                    "Target": "Table1"
+                }
+            ]
+        },
+        "Altar1": {
+            "Body": "You're facing the small stone altar that lays against the wall. The figure's stern face looks down towards a small bowl, where you'd place your offerings. At first, you felt no attraction towards it, no interest in it whatsoever. Lately, though, you've started to think you sense something from it. It's something like a long, slow breathing, slow enough to make you question if it's really changing, subtle enough to make you question if it's really happening.",
+            "ShowAltarState": "",
+            "Choices": [
+                {
+                    "Text": "Turn Left",
+                    "Target": "Door1"
+                },
+                {
+                    "Text": "Turn Right",
+                    "Target": "Window1"
+                },
+                {
+                    "Text": "Get Knife",
+                    "Conditions": [
+                        {
+                            "Condition": "knife",
+                            "ConditionValue": "Altar1"
+                        }
+                    ],
+                    "Call": "getKnife"
+                },
+                {
+                    "Text": "Place Knife",
+                    "Conditions": [
+                        {
+                            "Condition": "knife",
+                            "ConditionValue": "inventory"
+                        }
+                    ],
+                    "Call": "putKnife"
+                },
+                {
+                    "Text": "Place Idol",
+                    "Conditions": [
+                        {
+                            "Condition": "idol",
+                            "ConditionValue": "inventory"
+                        }
+                    ],
+                    "Call": "putIdol"
+                },
+                {
+                    "Text": "Get Idol",
+                    "Conditions": [
+                        {
+                            "Condition": "idol",
+                            "ConditionValue": "Altar1"
+                        }
+                    ],
+                    "Call": "getIdol"
+                },
+                {
+                    "Text": "Pray",
+                    "Conditions": [
+                        {
+                            "Condition": "time",
+                            "ConditionValue": "0"
+                        }
+                    ],
+                    "Call": "changeForm"
+                }
+            ]
+        },
+        "AltarFreeSpirits": {
+            "Body": "You're outside the door. The Altar of Free Spirits is here. In your heightened state of awareness, you feel the energy weaved around it so clearly you wonder how you ever missed it. You know just what tool it needs to help you cut the connection between you and your inhabitor. Given a tool for cutting, the presence sitting here can slice through bonds you yourself could never reach.",
+            "ShowAltarState": "",
+            "ShowTime": "",
+            "Choices": [
+                {
+                    "Text": "Go inside",
+                    "Target": "Door1"
+                },
+                {
+                    "Text": "Wait here",
+                    "Call": "wait"
+                },
+                {
+                    "Text": "Place Knife",
+                    "Conditions": [
+                        {
+                            "Condition": "knife",
+                            "ConditionValue": "inventory"
+                        }
+                    ],
+                    "Call": "putKnife"
+                },
+                {
+                    "Text": "Get Knife",
+                    "Conditions": [
+                        {
+                            "Condition": "knife",
+                            "ConditionValue": "AltarFreeSpirits"
+                        }
+                    ]
+                },
+                {
+                    "Text": "Invoke Gods",
+                    "Conditions": [
+                        {
+                            "Condition": "knife",
+                            "ConditionValue": "AltarFreeSpirits"
+                        },
+                        {
+                            "Condition": "time",
+                            "ConditionValue": "0"
+                        }
+                    ],
+                    "Target": "gameWin"
+                }
+            ]
+        },
+        "Door2": {
+            "Body": "You're facing the thick, featureless obsidian door of the cell they locked you in after your link manifested. It feels so unfair. To wish for a glimpse into the mortal world, only to be denied even the right to be in your own world in response.",
+            "ConditionalBody": [
+                {
+                    "Text": "Every day, every night, you dream of the idol you could channel your energy through to unlock that door. Every day, every night, you resist the urge to deem that dream impossible, even though it seems more so every day.",
+                    "Conditions": [
+                        {
+                            "Condition": "gameState",
+                            "ConditionValue": "1"
+                        }
+                    ]
+                }
+            ],
+            "Choices": [
+                {
+                    "Text": "Turn Right",
+                    "Target": "Table2"
+                }, {
+                    "Text": "Turn Left",
+                    "Target": "Altar2"
+                },
+                {
+                    "Text": "Channel Idol",
+                    "Conditions": [
+                        {
+                            "Condition": "idol",
+                            "ConditionValue": "inventory"
+                        },
+                        {
+                            "Condition": "spiritDoorUnlocked",
+                            "ConditionValue": "0"
+                        }
+                    ],
+                    "Call": "unlockDoor"
+                },
+                {
+                    "Text": "Go Outside",
+                    "Conditions": [
+                        {
+                            "Condition": "spiritDoorUnlocked",
+                            "ConditionValue": "1"
+                        }
+                    ],
+                    "Target": "OutsideDoor2"
+                }
+            ]
+        },
+        "Table2": {
+            "Body": "You're facing the flat obsidian slab that extends from the wall to form a table.",
+            "ConditionalBody": [
+                {
+                    "Text": "The table is littered with attempts at creating an Idol for yourself, but you know too well you'll never make one. Iron just isn't the material you need, even before you shattered your forging tooth in despair.",
+                    "Conditions": [
+                        {
+                            "Condition": "gameState",
+                            "ConditionValue": 1
+                        }
+                    ]
+                },
+                {
+                    "Text": "The table is littered with attempts at creating an Idol for yourself, but you know too well you'll never make one. Iron just isn't the material you need, even before you shattered your forging tooth in despair.",
+                    "Conditions": [
+                        {
+                            "Condition": "gameState",
+                            "ConditionValue": 2
+                        }
+                    ]
+                },
+                {
+                    "Text": "There's a draketooth and some iron blanks here for forging.",
+                    "Conditions": [
+                        {
+                            "Condition": "knife",
+                            "ConditionValue": "Table2"
+                        }
+                    ]
+                },
+                {
+                    "Text": "There are some iron blanks here for forging.",
+                    "Conditions": [
+                        {
+                            "Condition": "knife",
+                            "ConditionValue": "inventory"
+                        }
+                    ]
+                },
+                {
+                    "Text": "Sitting on the table, impossibly, is an Idol of Wild Spirits, its presence as shocking as its form is familiar. At last, at long last, you have the means to escape your prison. Your only wish now is to know to whom you owe your freedom. You know you will not rest until you find out.",
+                    "Conditions": [
+                        {
+                            "Condition": "idol",
+                            "ConditionValue": "Table2"
+                        },
+                        {
+                            "Condition": "spiritDoorUnlocked",
+                            "ConditionValue": 0
+                        }
+                    ]
+                },
+                {
+                    "Text": "You remember the strange object that the being you've been linked to was wishing for. Your tools are ready. You know you can help them, as they helped you.",
+                    "Conditions": [
+                        {
+                            "Condition": "gameState",
+                            "ConditionValue": "4"
+                        },
+                        {
+                            "Condition": "knife",
+                            "ConditionValue": "inventory"
+                        }
+                    ]
+                },
+                {
+                    "Text": "You remember the strange object that the being you've been linked to was wishing for. Your tools are ready. You know you can help them, as they helped you.",
+                    "Conditions": [
+                        {
+                            "Condition": "gameState",
+                            "ConditionValue": "4"
+                        },
+                        {
+                            "Condition": "knife",
+                            "ConditionValue": "Table2"
+                        }
+                    ]
+                }
+            ],
+            "Choices": [
+                {
+                    "Text": "Turn Right",
+                    "Target": "Window2"
+                },
+                {
+                    "Text": "Turn Left",
+                    "Target": "Door2"
+                },
+                {
+                    "Text": "Get Tooth",
+                    "Conditions": [
+                        {
+                            "Condition": "knife",
+                            "ConditionValue": "Table2"
+                        }
+                    ],
+                    "Call": "getKnife"
+                },
+                {
+                    "Text": "Place Tooth",
+                    "Conditions": [
+                        {
+                            "Condition": "knife",
+                            "ConditionValue": "inventory"
+                        }
+                    ],
+                    "Call": "putKnife"
+                },
+                {
+                    "Text": "Get Idol",
+                    "Conditions": [
+                        {
+                            "Condition": "idol",
+                            "ConditionValue": "Table2"
+                        }
+                    ],
+                    "Call": "getIdol"
+                },
+                {
+                    "Text": "Place Idol",
+                    "Conditions": [
+                        {
+                            "Condition": "idol",
+                            "ConditionValue": "inventory"
+                        }
+                    ],
+                    "Call": "putIdol"
+                },
+                {
+                    "Text": "Get Key",
+                    "Conditions": [
+                        {
+                            "Condition": "roomKey",
+                            "ConditionValue": "Table2"
+                        }
+                    ],
+                    "Call": "getRoomKey"
+                },
+                {
+                    "Text": "Place Key",
+                    "Conditions": [
+                        {
+                            "Condition": "roomKey",
+                            "ConditionValue": "inventory"
+                        }
+                    ],
+                    "Call": "putRoomKey"
+                },
+                {
+                    "Text": "Forge",
+                    "Conditions": [
+                        {
+                            "Condition": "knife",
+                            "ConditionValue": "inventory"
+                        },
+                        {
+                            "Condition": "gameState",
+                            "ConditionValue": "4"
+                        }
+                    ],
+                    "Call": "makeRoomKey"
+                }
+            ]
+        },
+        "Window2": {
+            "Body": "You're facing the window. The only taste of hope, the only taste of joy you've been granted. A glimpse into the spirit world, for the one who hoped to glimpse what lies beyond it, they said. You can't decide if you're grateful or not, to have it on this side of your cell. Every night, by the light of the rising moon, you can see the grand Altar outside. A resplendent memory of everything you've lost. Beautiful and devastating.",
+            "ConditionalBody": [
+                {
+                    "Text": "Silhouetted by the rising moon, you see the Altar of Wild Spirits jutting up from the rippling grassland outside. The form of the idol you used to worship there -- and the memory of the freedom it could grant -- is seared into your mind once again. But it's doomed to forever be a dream, it seems. The wild oak from which that idol must be carved is, as you remember all too well, found outside the door behind you.",
+                    "Conditions": [
+                        {
+                            "Condition": "time",
+                            "ConditionValue": "2"
+                        },
+                        {
+                            "Condition": "gameState",
+                            "ConditionValue": "1"
+                        }
+                    ]
+                },
+                {
+                    "Text": "For some reason, though, gazing upon it feels different this time. As if another pair of eyes is here with you, beholding its divine form, drawing upon its radiant energy.",
+                    "Conditions": [
+                        {
+                            "Condition": "time",
+                            "ConditionValue": "2"
+                        },
+                        {
+                            "Condition": "gameState",
+                            "ConditionValue": "1"
+                        }
+                    ]
+                }
+            ],
+            "ShowTime": "",
+            "Choices": [
+                {
+                    "Text": "Turn Right",
+                    "Target": "Altar2"
+                },
+                {
+                    "Text": "Wait Here",
+                    "Call": "wait"
+                },
+                {
+                    "Text": "Turn Left",
+                    "Target": "Table2"
+                }
+            ]
+        },
+        "Altar2": {
+            "Body": "You're facing the altar, carved in deep obsidian relief from the thick wall on this side of your cell. Its breath cycle is so clear as to distract you, even when you're looking elsewhere. When you're facing this way, it's hard to sense anything besides it. Every day, you feel the hunger from its offering bowl ebb and flow with the light of the sun.",
+            "ShowAltarState": "",
+            "Choices": [
+                {
+                    "Text": "Turn Right",
+                    "Target": "Door2"
+                },
+                {
+                    "Text": "Turn Left",
+                    "Target": "Window2"
+                },
+                {
+                    "Text": "Get Tooth",
+                    "Conditions": [
+                        {
+                            "Condition": "knife",
+                            "ConditionValue": "Table2"
+                        }
+                    ],
+                    "Call": "getKnife"
+                },
+                {
+                    "Text": "Place Tooth",
+                    "Conditions": [
+                        {
+                            "Condition": "knife",
+                            "ConditionValue": "inventory"
+                        }
+                    ],
+                    "Call": "putKnife"
+                },
+                {
+                    "Text": "Get Idol",
+                    "Conditions": [
+                        {
+                            "Condition": "idol",
+                            "ConditionValue": "Table2"
+                        }
+                    ],
+                    "Call": "getIdol"
+                },
+                {
+                    "Text": "Place Idol",
+                    "Conditions": [
+                        {
+                            "Condition": "idol",
+                            "ConditionValue": "inventory"
+                        }
+                    ],
+                    "Call": "putIdol"
+                },
+                {
+                    "Text": "Get Key",
+                    "Conditions": [
+                        {
+                            "Condition": "roomKey",
+                            "ConditionValue": "Table2"
+                        }
+                    ],
+                    "Call": "getRoomKey"
+                },
+                {
+                    "Text": "Place Key",
+                    "Conditions": [
+                        {
+                            "Condition": "roomKey",
+                            "ConditionValue": "inventory"
+                        }
+                    ],
+                    "Call": "putRoomKey"
+                },
+                {
+                    "Text": "Pray",
+                    "Conditions": [
+                        {
+                            "Condition": "time",
+                            "ConditionValue": "0"
+                        }
+                    ],
+                    "Call": "changeForm"
+                }
+            ]
+        },
+        "OutsideDoor2": {
+            "Body": "You're outside the door. The spirit world stretches infinitely out before you in all its splendor, but your mind is clear. You must keep moving toward your goal.",
+            "ShowTime": "",
+            "Choices": [
+                {
+                    "Text": "Go inside",
+                    "Target": "Door2"
+                },
+                {
+                    "Text": "Go around the house",
+                    "Target":"OutsideTable2"
+                }
+            ]
+        },
+        "OutsideTable2": {
+            "Body": "You're heading around the great obsidian trunk of the tree that was your prison for so long.",
+            "ShowTime": "",
+            "Choices": [
+                {
+                    "Text": "Go to the altar",
+                    "Target": "AltarWildSpirits"
+                },
+                {
+                    "Text": "Go to the door",
+                    "Target": "OutsideDoor2"
+                }
+            ]
+        },
+        "AltarWildSpirits": {
+            "Body": "You're standing before the Altar of Wild Spirits. If the aura of energy from your cell's alter was overwhelming, this aura is all-encompassing. You feel yourself shrinking before the enormity of the universes it holds, the possibilities it represents. As always, you know there is only one offering fit for this moment -- an offering from another world, to satisfy that which created them all.",
+            "ShowAltarState": "",
+            "ShowTime": "",
+            "Choices": [
+                {
+                    "Text": "Go around the house",
+                    "Target": "OutsideTable2"
+                },
+                {
+                    "Text": "Wait Here",
+                    "Call": "wait"
+
+                },
+                {
+                    "Text": "Place Idol",
+                    "Conditions": [
+                        {
+                            "Condition": "idol",
+                            "ConditionValue": "inventory"
+                        }
+                    ],
+                    "Call": "putIdol"
+                },
+                {
+                    "Text": "Get Idol",
+                    "Conditions": [
+                        {
+                            "Condition": "idol",
+                            "ConditionValue": "AltarWildSpirits"
+                        }
+                    ],
+                    "Call": "getIdol"
+                },
+                {
+                    "Text": "Invoke Gods",
+                    "Conditions": [
+                        {
+                            "Condition": "idol",
+                            "ConditionValue": "AltarWildSpirits"
+                        },
+                        {
+                            "Condition": "time",
+                            "ConditionValue": "0"
+                        },
+                        {
+                            "Condition": "gameState",
+                            "ConditionValue": "3"
+                        }
+                    ],
+                    "Call": "learnRoomKey"
+                }
+            ]
+        },
+        "gameWin": {
+            "Body": "And so the glimpse into another world was given unto them both. As the gods severed their bond and they went their separate ways, the memories of that time stuck with them -- of the existence of forces and places neither had before known, and neither would ever see or sense again. It comforted them in a sense, though, to know that there truly was something more out there. Something beyond the boundaries of the knowable, of the understandable. It might have been an overwhelming thing to know for some, but for them, it brought no fear -- just a sense of wonder at what might be right in front of them, beyond what they could first perceive."
         }
     }
 }
